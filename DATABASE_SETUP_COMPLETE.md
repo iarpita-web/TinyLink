@@ -67,3 +67,4 @@ This will:
 
 That's it! The database will automatically create all necessary tables when you first use the app.
 
+

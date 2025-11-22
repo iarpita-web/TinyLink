@@ -58,3 +58,4 @@ The database will automatically create the required tables on first use.
 - See `SETUP_DATABASE.md` for detailed instructions
 - Check the terminal for error messages
 
+

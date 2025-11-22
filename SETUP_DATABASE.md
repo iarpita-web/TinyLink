@@ -75,3 +75,4 @@ Once you've added your `DATABASE_URL` to `.env.local`:
 - Keep your connection string secret
 - For production, use environment variables in your hosting platform (Vercel, etc.)
 
+
