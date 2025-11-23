@@ -115,8 +115,7 @@ export async function POST(request) {
       return NextResponse.json(
         { 
           error: 'Database not configured',
-          message: 'Please set DATABASE_URL in .env.local file. See /database-setup for instructions.',
-          setupUrl: '/database-setup'
+          message: 'Please set DATABASE_URL environment variable in Vercel settings (for production) or .env.local file (for local development).'
         },
         { status: 503 }
       );
@@ -147,8 +146,7 @@ export async function GET() {
       return NextResponse.json(
         { 
           error: 'Database not configured',
-          message: 'Please set DATABASE_URL in .env.local file. See /database-setup for instructions.',
-          setupUrl: '/database-setup'
+          message: 'Please set DATABASE_URL environment variable in Vercel settings (for production) or .env.local file (for local development).'
         },
         { status: 503 }
       );
