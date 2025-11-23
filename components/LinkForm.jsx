@@ -46,6 +46,9 @@ export default function LinkForm({ onSuccess }) {
     setLoading(true);
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      
       const response = await fetch('/api/links', {
         method: 'POST',
         headers: {
@@ -55,15 +58,20 @@ export default function LinkForm({ onSuccess }) {
           url: url.trim(),
           code: customCode.trim() || undefined,
         }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       const data = await response.json();
 
       if (!response.ok) {
         if (response.status === 409) {
           setError('This custom code already exists. Please choose another.');
+        } else if (response.status === 503) {
+          setError(data.message || 'Database connection error. Please check your DATABASE_URL in Vercel settings.');
         } else {
-          setError(data.error || 'Failed to create link');
+          setError(data.error || data.message || 'Failed to create link');
         }
         return;
       }
@@ -76,7 +84,11 @@ export default function LinkForm({ onSuccess }) {
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      setError('Network error. Please try again.');
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please check your database connection.');
+      } else {
+        setError(err.message || 'Network error. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

@@ -14,21 +14,36 @@ export default function Dashboard() {
   const fetchLinks = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/links');
+      setError('');
+      
+      // Add timeout to fetch
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch('/api/links', {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
       const data = await response.json();
       
       if (!response.ok) {
         // Show error message instead of redirecting
         if (response.status === 503) {
-          throw new Error('Database connection error. Please check your DATABASE_URL environment variable in Vercel settings.');
+          throw new Error(data.message || 'Database connection error. Please check your DATABASE_URL environment variable in Vercel settings.');
         }
-        throw new Error(data.error || 'Failed to fetch links');
+        throw new Error(data.error || data.message || 'Failed to fetch links');
       }
       
       setLinks(data);
       setError('');
     } catch (err) {
-      setError(err.message || 'Failed to load links. Please refresh the page.');
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please check your database connection.');
+      } else {
+        setError(err.message || 'Failed to load links. Please refresh the page.');
+      }
     } finally {
       setLoading(false);
     }
