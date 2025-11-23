@@ -121,6 +121,16 @@ export async function POST(request) {
       );
     }
     
+    if (error.code === 'INVALID_DATABASE_URL') {
+      return NextResponse.json(
+        { 
+          error: 'Invalid database connection string',
+          message: error.message || 'DATABASE_URL format is incorrect. Please check your connection string in Vercel environment variables. It should start with "postgresql://" and be a complete connection string from Neon.'
+        },
+        { status: 503 }
+      );
+    }
+    
     const errorMessage = error.message || 'Internal server error';
     return NextResponse.json(
       { error: errorMessage },
@@ -147,6 +157,16 @@ export async function GET() {
         { 
           error: 'Database not configured',
           message: 'Please set DATABASE_URL environment variable in Vercel settings (for production) or .env.local file (for local development).'
+        },
+        { status: 503 }
+      );
+    }
+    
+    if (error.code === 'INVALID_DATABASE_URL') {
+      return NextResponse.json(
+        { 
+          error: 'Invalid database connection string',
+          message: error.message || 'DATABASE_URL format is incorrect. Please check your connection string in Vercel environment variables. It should start with "postgresql://" and be a complete connection string from Neon.'
         },
         { status: 503 }
       );
