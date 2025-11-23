@@ -103,3 +103,5 @@ DATABASE_URL=${connectionString.trim()}
 quickSetup();
 
 
+
+
