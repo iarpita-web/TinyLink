@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { truncateUrl } from '@/lib/utils';
+import { truncateUrl } from '@/client/utils';
 
 export default function LinkTable({ links, onDelete, onRefresh }) {
   const [searchTerm, setSearchTerm] = useState('');

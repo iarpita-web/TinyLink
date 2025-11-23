@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPool, initDatabase } from '@/lib/db';
+import { getPool, initDatabase } from '@/lib/database/connection';
 
 // Initialize database on first API call
 let dbInitialized = false;
