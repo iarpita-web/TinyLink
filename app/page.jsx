@@ -18,10 +18,9 @@ export default function Dashboard() {
       const data = await response.json();
       
       if (!response.ok) {
-        if (response.status === 503 && data.setupUrl) {
-          // Database not configured - redirect to setup page
-          window.location.href = data.setupUrl;
-          return;
+        // Show error message instead of redirecting
+        if (response.status === 503) {
+          throw new Error('Database connection error. Please check your DATABASE_URL environment variable in Vercel settings.');
         }
         throw new Error(data.error || 'Failed to fetch links');
       }

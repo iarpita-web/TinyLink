@@ -51,8 +51,13 @@ export default function DatabaseSetupPage() {
         </div>
 
         <div className="mt-6 pt-6 border-t">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <p className="text-sm text-yellow-800">
+              <strong>For Vercel Deployment:</strong> Add <code className="bg-yellow-100 px-2 py-1 rounded">DATABASE_URL</code> in Vercel Settings → Environment Variables (Production, Preview, Development).
+            </p>
+          </div>
           <p className="text-sm text-gray-600 mb-4">
-            <strong>Need help?</strong> See <code className="bg-gray-100 px-2 py-1 rounded">SETUP_DATABASE.md</code> or <code className="bg-gray-100 px-2 py-1 rounded">QUICK_START.md</code> for detailed instructions.
+            <strong>Need help?</strong> See <code className="bg-gray-100 px-2 py-1 rounded">SETUP_DATABASE.md</code> or <code className="bg-gray-100 px-2 py-1 rounded">VERCEL_SETUP.md</code> for detailed instructions.
           </p>
           <Link 
             href="/" 
